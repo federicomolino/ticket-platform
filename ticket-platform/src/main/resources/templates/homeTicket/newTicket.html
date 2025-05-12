@@ -61,10 +61,6 @@
               </a>
             </div>
 
-            <ul th:if="${#fields.hasErrors('utente')}">
-              <li th:each="err : ${#fields.errors('utente')}" th:text="${err}" class="text-danger">Input is incorrect</li>
-            </ul>
-
             <div th:unless="${listUtente == null or listUtente.isEmpty}">
               <select class="form-select" name="utenteSelezionato" multiple required>
                 <div th:each="utente : ${listUtente}">
@@ -73,6 +69,9 @@
               </select>
             </div>
           </div>
+          <ul th:if="${#fields.hasErrors('utente')}">
+            <li th:each="err : ${#fields.errors('utente')}" th:text="${err}" class="text-danger">Input is incorrect</li>
+          </ul>
         </div>
 
         <!--Lista di piattaforme disponibili-->
@@ -93,12 +92,11 @@
                 <label class="form-check-label" for="switchCheckDefault"
                        th:text="${categoria.nomeCategoria}">PC</label>
               </div>
-
-              <ul th:if="${#fields.hasErrors('categoriaSelezionata')}">
-                <li th:each="err : ${#fields.errors('categoriaSelezionata')}" th:text="${err}" class="text-danger">Input is incorrect</li>
-              </ul>
             </div>
           </div>
+          <ul th:if="${#fields.hasErrors('categoria')}">
+            <li th:each="err : ${#fields.errors('categoria')}" th:text="${err}" class="text-danger">Input is incorrect</li>
+          </ul>
         </div>
       </div>
 

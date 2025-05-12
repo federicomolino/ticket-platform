@@ -36,13 +36,13 @@ public class ticketController {
 
     @PostMapping("newTicket")
     public String newTicket(@Valid @ModelAttribute("formNewTicket") Ticket ticketForm, BindingResult bindingResult, Model model,
-                            @RequestParam(value = "utenteSelezionato")Integer utenteSelezionatoId,
-                            @RequestParam(value = "categoriaSelezionata") List<Integer> categoriaSelezionataId){
+                            @RequestParam(value = "utenteSelezionato", required = false)Integer utenteSelezionatoId,
+                            @RequestParam(value = "categoriaSelezionata", required = false) List<Integer> categoriaSelezionataId){
 
         if (utenteSelezionatoId == null){
             bindingResult.rejectValue("utente","errorUtente","Selezionare l'utente");
         } else if (categoriaSelezionataId == null || categoriaSelezionataId.isEmpty()) {
-            bindingResult.rejectValue("categoriaSelezionata","errorCategoria","Selezionare la Categoria");
+            bindingResult.rejectValue("categoria", "errorCategoria","Selezionare almeno una categoria");
         }
 
         if (bindingResult.hasErrors()){
