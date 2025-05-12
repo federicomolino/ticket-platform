@@ -72,7 +72,7 @@
                                      th:classappend="${iterStat.index % 2 == 0} ? 'bg-light' : 'bg-white'">
 
                                     <div class="col-2 d-flex align-items-center">
-                                        <a th:href="@{/}"
+                                        <a th:href="@{/ticket/infoTicket/{id}(id=${ticket.id})}"
                                            class="link-dark link-offset-2 link-underline-opacity-0 fw-bold"
                                            th:text="${ticket.titoloTicket}">prova</a>
                                     </div>

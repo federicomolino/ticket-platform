@@ -2,6 +2,7 @@ package com.ticket_platform.ticket_platform.Controller;
 
 import com.ticket_platform.ticket_platform.Entity.Ticket;
 import com.ticket_platform.ticket_platform.Repository.categoriaRepository;
+import com.ticket_platform.ticket_platform.Repository.ticketRepository;
 import com.ticket_platform.ticket_platform.Repository.utenteRepository;
 import com.ticket_platform.ticket_platform.Service.ticketService;
 import jakarta.validation.Valid;
@@ -19,6 +20,9 @@ public class ticketController {
 
     @Autowired
     private utenteRepository utenteRepository;
+
+    @Autowired
+    private ticketRepository ticketRepository;
 
     @Autowired
     private categoriaRepository categoriaRepository;
@@ -53,5 +57,14 @@ public class ticketController {
 
         ticketService.newTicket(ticketForm, utenteSelezionatoId, categoriaSelezionataId);
         return "redirect:/";
+    }
+
+    @GetMapping("infoTicket/{id}")
+    public String showInfoTicket(Model model, @PathVariable("id") Integer id){
+        Ticket ticket = ticketRepository.findById(id).get();
+        model.addAttribute("ticket",ticket);
+        model.addAttribute("listUtente", ticket.getUtente());
+        model.addAttribute("listCategoria", ticket.getCategoria());
+        return "homeTicket/infoTicket";
     }
 }
