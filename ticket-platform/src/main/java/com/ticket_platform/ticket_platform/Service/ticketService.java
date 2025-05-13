@@ -1,6 +1,7 @@
 package com.ticket_platform.ticket_platform.Service;
 
 import com.ticket_platform.ticket_platform.Entity.Categoria;
+import com.ticket_platform.ticket_platform.Entity.Nota;
 import com.ticket_platform.ticket_platform.Entity.Ticket;
 import com.ticket_platform.ticket_platform.Entity.Utente;
 import com.ticket_platform.ticket_platform.Repository.categoriaRepository;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ticketService {
@@ -54,5 +56,28 @@ public class ticketService {
 
         Ticket editTicket = newTicket(ticketForm,utenteSelezionatoId,categoriaSelezionataId);
         return editTicket;
+    }
+
+    public void deleteTicket(Integer id){
+        Optional<Ticket> ticket = ticketRepository.findById(id);
+        if (ticket.isPresent()){
+            //recupero il ticket
+            Ticket t = ticket.get();
+
+            //setto a null l'utente
+            if (t.getUtente() != null){
+                t.setUtente(null);
+                ticketRepository.save(t);
+            }
+
+            //setto a null eventuali note
+            List<Nota> nota = notaRepository.findByTicketId(id);
+            if (!nota.isEmpty()){
+                for (Nota note : nota){
+                    notaRepository.delete(note);
+                }
+            }
+            ticketRepository.deleteById(id);
+        }
     }
 }

@@ -105,4 +105,10 @@ public class ticketController {
 
         return "redirect:/ticket/infoTicket/" + id;
     }
+
+    @PostMapping("delete/{id}")
+    public String deleteTicket(@PathVariable("id")Integer id){
+        ticketService.deleteTicket(id);
+        return "redirect:/";
+    }
 }
