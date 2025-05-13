@@ -32,7 +32,12 @@ public class Ticket {
     @OneToMany(mappedBy = "ticket")
     private List<Nota> nota;
 
-    @OneToMany(mappedBy = "ticket")
+    @ManyToMany
+    @JoinTable(
+            name = "ticket_categoria",
+            joinColumns = @JoinColumn(name = "ticket_id"),
+            inverseJoinColumns = @JoinColumn(name = "categoria_id")
+    )
     private List<Categoria> categoria;
 
     public List<Categoria> getCategoria() {

@@ -13,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("ticket")
@@ -66,5 +67,37 @@ public class ticketController {
         model.addAttribute("listUtente", ticket.getUtente());
         model.addAttribute("listCategoria", ticket.getCategoria());
         return "homeTicket/infoTicket";
+    }
+
+    @GetMapping("editTicket/{id}")
+    public String editTicketShow(Model model, @PathVariable("id") Integer id) {
+        Optional<Ticket> ticket = ticketRepository.findById(id);
+        if (ticket.isPresent()) {
+            model.addAttribute("formEditTicket", ticket.get());
+            model.addAttribute("listUtente", utenteRepository.findAll());
+            model.addAttribute("listCategoria", categoriaRepository.findAll());
+        }
+        return "homeTicket/editTicket";
+    }
+
+    @PostMapping("editTicket/{id}")
+    public String editTicket(@Valid @PathVariable("id")Integer id,@Valid @ModelAttribute("formEditTicket") Ticket ticketForm,
+                             BindingResult bindingResult,
+                             @RequestParam(value = "categoriaSelezionata", required = false) List<Integer> categoriaSelezionataId,
+                             @RequestParam(value = "nota", required = false) String nota, Model model){
+
+        if (categoriaSelezionataId == null || categoriaSelezionataId.isEmpty()) {
+            bindingResult.rejectValue("categoria", "errorCategoria","Selezionare almeno una categoria");
+        }
+
+        if (bindingResult.hasErrors()){
+            model.addAttribute("listUtente", utenteRepository.findAll());
+            model.addAttribute("listCategoria", categoriaRepository.findAll());
+            return "homeTicket/editTicket";
+        }
+
+        ticketService.editTicket(ticketForm,ticketForm.getUtente().getIdUtente(),categoriaSelezionataId,nota);
+
+        return "redirect:/ticket/infoTicket/" + id;
     }
 }

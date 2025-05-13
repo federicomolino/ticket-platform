@@ -8,8 +8,9 @@
 <body>
 <div th:replace="~{navbar/navbar :: navbar}"></div>
 <div class="container">
-  <h2 class="mb-2 mt-2">Nuovo Ticket</h2>
-  <form method="post" th:object="${formNewTicket}" th:action="@{/ticket/newTicket}" enctype="multipart/form-data">
+  <h2 class="mb-2 mt-2">Modifica Ticket</h2>
+  <form method="post" th:object="${formEditTicket}" th:action="@{'/ticket/editTicket/' + ${formEditTicket.id}}"
+        enctype="multipart/form-data">
     <div class="row">
       <div class="col-4 col-md-6">
         <!-- Titolo -->
@@ -35,10 +36,11 @@
         <!-- Stato -->
         <div class="mt-3">
           <h6>Seleziona Stato <span class="text-danger">*</span></h6>
-              <select class="form-select" style="height: 60px" th:field="*{stato}" required>
-                  <option value="DA_FARE">DA FARE</option>
-                  <option value="IN_CORSO">IN CORSO</option>
-              </select>
+          <select class="form-select" style="height: 60px" th:field="*{stato}" required>
+            <option value="DA_FARE">DA FARE</option>
+            <option value="IN_CORSO">IN CORSO</option>
+            <option value="COMPLETATO">COMPLETATO</option>
+          </select>
         </div>
       </div>
 
@@ -55,10 +57,11 @@
             </div>
 
             <div th:unless="${listUtente == null or listUtente.isEmpty}">
-              <select class="form-select" name="utenteSelezionato" multiple required>
-                <div th:each="utente : ${listUtente}">
-                  <option th:value="${utente.idUtente}" th:text="${utente.username}"></option>
-                </div>
+              <select class="form-select" th:field="*{utente.idUtente}" required>
+                <option th:each="utente : ${listUtente}"
+                        th:value="${utente.idUtente}"
+                        th:text="${utente.username}">
+                </option>
               </select>
             </div>
           </div>
@@ -67,11 +70,10 @@
           </ul>
         </div>
 
-        <!--Lista di piattaforme disponibili-->
+        <!--Lista di categorie disponibili-->
         <div class="mt-3">
           <h6>Seleziona la Categoria <span class="text-danger">*</span></h6>
           <div class="border rounded p-2" style="max-height: 150px; overflow-y: auto;">
-
             <div th:if="${listCategoria == null or listCategoria.isEmpty}">
               <a class="text-black text-decoration-none" href="/categoria">Nessuna Piattaforma inserita,
                 clicca qui per inserirla!!</a>
@@ -79,11 +81,12 @@
 
             <div th:unless="${listCategoria == null or listCategoria.isEmpty}">
               <div class="form-check form-switch" th:each="categoria : ${listCategoria}">
-                <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault"
+                <!-- Ogni checkbox rappresenta un'istanza della lista categoria -->
+                <input class="form-check-input" type="checkbox"
                        th:value="${categoria.idCategoria}"
-                       name="categoriaSelezionata">
-                <label class="form-check-label" for="switchCheckDefault"
-                       th:text="${categoria.nomeCategoria}">PC</label>
+                       th:name="categoriaSelezionata"
+                th:checked="${formEditTicket.categoria != null and formEditTicket.categoria.contains(categoria)}">
+                <label class="form-check-label" th:text="${categoria.nomeCategoria}"></label>
               </div>
             </div>
           </div>
@@ -95,7 +98,7 @@
 
       <!-- Pulsanti -->
       <div class="d-flex justify-content-center mt-4">
-        <button type="submit" class="btn btn-outline-success">Crea Ticket</button>
+        <button type="submit" class="btn btn-outline-success">Modifica Ticket</button>
         <a th:href="@{/}" class="btn btn-outline-danger ms-4">Cancella</a>
       </div>
     </div>

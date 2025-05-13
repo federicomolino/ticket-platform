@@ -2,6 +2,8 @@ package com.ticket_platform.ticket_platform.Entity;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 public class Categoria {
 
@@ -13,15 +15,15 @@ public class Categoria {
     @Column(name = "nome_categoria")
     private String nomeCategoria;
 
-    @ManyToOne
-    private Ticket ticket;
+    @ManyToMany(mappedBy = "categoria")
+    private List<Ticket> tickets;
 
-    public Ticket getTicket() {
-        return ticket;
+    public List<Ticket> getTickets() {
+        return tickets;
     }
 
-    public void setTicket(Ticket ticket) {
-        this.ticket = ticket;
+    public void setTickets(List<Ticket> tickets) {
+        this.tickets = tickets;
     }
 
     public Integer getIdCategoria() {
