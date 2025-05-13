@@ -2,6 +2,7 @@ package com.ticket_platform.ticket_platform.Controller;
 
 import com.ticket_platform.ticket_platform.Entity.Ticket;
 import com.ticket_platform.ticket_platform.Repository.categoriaRepository;
+import com.ticket_platform.ticket_platform.Repository.notaRepository;
 import com.ticket_platform.ticket_platform.Repository.ticketRepository;
 import com.ticket_platform.ticket_platform.Repository.utenteRepository;
 import com.ticket_platform.ticket_platform.Service.ticketService;
@@ -30,6 +31,9 @@ public class ticketController {
 
     @Autowired
     private ticketService ticketService;
+
+    @Autowired
+    private notaRepository notaRepository;
 
     @GetMapping("newTicket")
     public String newTicket(Model model){
@@ -66,6 +70,7 @@ public class ticketController {
         model.addAttribute("ticket",ticket);
         model.addAttribute("listUtente", ticket.getUtente());
         model.addAttribute("listCategoria", ticket.getCategoria());
+        model.addAttribute("listNote", ticket.getNota());
         return "homeTicket/infoTicket";
     }
 

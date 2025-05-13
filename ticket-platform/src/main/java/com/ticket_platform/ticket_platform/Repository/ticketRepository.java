@@ -8,4 +8,5 @@ import java.util.List;
 public interface ticketRepository extends JpaRepository<Ticket,Integer> {
     List<Ticket> findByTitoloTicketContainingIgnoreCase(String titoloTicket);
 
+    Ticket findUtenteById(Integer id);
 }

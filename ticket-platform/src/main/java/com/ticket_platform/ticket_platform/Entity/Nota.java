@@ -2,6 +2,8 @@ package com.ticket_platform.ticket_platform.Entity;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
+
 @Entity
 public class Nota {
 
@@ -14,6 +16,16 @@ public class Nota {
 
     @ManyToOne
     private Ticket ticket;
+
+    private LocalDate data;
+
+    public LocalDate getData() {
+        return data;
+    }
+
+    public void setData(LocalDate data) {
+        this.data = data;
+    }
 
     public Integer getId() {
         return id;

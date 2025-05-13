@@ -60,7 +60,7 @@
     <div class="col-6">
       <div class="d-flex justify-content-between">
         <h6>Note ticket</h6>
-        <a th:href="@{/ticket/newNota/{id}(id=${ticket.id})}">Aggiungi nota</a>
+        <a th:href="@{/ticket/newNota/{id}(id=${ticket.id})}" class=" h6 text-decoration-none">Aggiungi nota</a>
       </div>
       <div style="max-height: 500px; overflow-y: auto; border: 1px solid #ccc; padding: 10px;">
         <div th:if="${listNote == null or listNote.isEmpty}">
@@ -70,10 +70,10 @@
         <div th:each="note : ${listNote}">
           <div class="mt-2">
             <div class="d-flex justify-content-between">
-              <span th:text="${utente.username}">federico.molino</span>
-              <span th:text="${nota.date}">13/05</span>
+              <span th:text="${ticket.utente.username}">federico.molino</span>
+              <span th:text="${note.data}">13/05</span>
             </div>
-            <textarea class="form-control" id="exampleTextarea" rows="4" th:text="${nota.nota}" readonly>Prova</textarea>
+            <textarea class="form-control" id="exampleTextarea" rows="4" th:text="${note.nota}" readonly>Prova</textarea>
           </div>
         </div>
       </div>
