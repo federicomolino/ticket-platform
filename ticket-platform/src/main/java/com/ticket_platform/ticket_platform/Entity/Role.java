@@ -12,4 +12,20 @@ public class Role {
 
     @Column(name = "name_role")
     private String nomeRegola;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getNomeRegola() {
+        return nomeRegola;
+    }
+
+    public void setNomeRegola(String nomeRegola) {
+        this.nomeRegola = nomeRegola;
+    }
 }

@@ -15,7 +15,7 @@
                 <div class="d-flex mt-3">
                     <h2>Ticket</h2>
 
-                    <a class="ms-4 mt-2 h5 text-decoration-none"
+                    <a class="ms-4 mt-2 h5 text-decoration-none" sec:authorize="hasAuthority('ADMIN')"
                        th:href="@{/ticket/newTicket}">
                         New Ticket
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="18" fill="currentColor" class="bi bi-ticket" viewBox="0 0 16 16">
@@ -64,7 +64,7 @@
                                 <div class="col-3 d-flex justify-content-center">
                                     <h6>Assegnatario</h6>
                                 </div>
-                                <div class="col-1 d-flex justify-content-center">
+                                <div class="col-1 d-flex justify-content-center" sec:authorize="hasAuthority('ADMIN')">
                                     <h6>Elimina</h6>
                                 </div>
                             </div>

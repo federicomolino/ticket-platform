@@ -22,9 +22,19 @@ public class Utente {
 
     private String password;
 
+    private String email;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     private boolean disponibile;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "utente_role",
             joinColumns = @JoinColumn(name = "id_utente", referencedColumnName = "id_utente"),

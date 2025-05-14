@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="UTF-8">
   <title>NewTicket</title>
@@ -14,7 +14,7 @@
     <div class="row">
       <div class="col-4 col-md-6">
         <!-- Titolo -->
-        <div class="mb-1">
+        <div class="mb-1" sec:authorize="hasAuthority('ADMIN')">
           <label class="form-label">Titolo ticekt <span class="text-danger">*</span></label>
           <input type="text" name="titoloTicket" th:field="*{titoloTicket}" class="form-control" id="titoloTicket" required>
 
@@ -24,7 +24,7 @@
         </div>
 
         <!-- Descrizione -->
-        <div class="mb-1">
+        <div class="mb-1" sec:authorize="hasAuthority('ADMIN')">
           <label class="form-label">Descrizione (Max. 20 caratteri)</label>
           <input type="text" name="descrizione" th:field="*{descrizione}" class="form-control" id="descrizione"
                  maxlength="20">
@@ -46,7 +46,7 @@
 
       <div class="col-4">
         <!-- Seleziona Utente -->
-        <div class="mt-3">
+        <div class="mt-3" sec:authorize="hasAuthority('ADMIN')">
           <h6>Seleziona Utente <span class="text-danger">*</span></h6>
           <div class="border rounded p-2" style="max-height: 150px; overflow-y: auto;">
 
@@ -71,7 +71,7 @@
         </div>
 
         <!--Lista di categorie disponibili-->
-        <div class="mt-3">
+        <div class="mt-3" sec:authorize="hasAuthority('ADMIN')">
           <h6>Seleziona la Categoria <span class="text-danger">*</span></h6>
           <div class="border rounded p-2" style="max-height: 150px; overflow-y: auto;">
             <div th:if="${listCategoria == null or listCategoria.isEmpty}">
