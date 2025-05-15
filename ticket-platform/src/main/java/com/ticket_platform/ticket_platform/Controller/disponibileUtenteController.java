@@ -27,15 +27,9 @@ public class disponibileUtenteController {
     public String gestioneDisponibilitaUtente(@RequestParam(value = "disponibilitaUtente",required = false, defaultValue = "false")
                                                boolean checkDisponibile,
                                               Principal principal, RedirectAttributes redirectAttributes){
-//        String username = principal.getName();
-//        Utente utente = utenteRepository.findByUsername(username).get();
-//        Ticket ticket = ticketRepository.findById(utente.getIdUtente()).get();
-//        if (ticket.getStato().equals("DA_FARE") || ticket.getStato().equals("IN_CORSO")){
-//            redirectAttributes.addFlashAttribute("erroreDisponibilita",
-//                    "Non puoi modificare la disponibilità con ticket attivi.");
-//        }
 
         boolean disponibileUtente = disponibileUtenteService.disponibilitaUtente(checkDisponibile,principal);
+
         if(!disponibileUtente){
             redirectAttributes.addFlashAttribute("erroreDisponibilita",
                     "Non puoi modificare la disponibilità, ticket attivi.");

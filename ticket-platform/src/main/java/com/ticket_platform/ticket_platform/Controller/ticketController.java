@@ -1,10 +1,12 @@
 package com.ticket_platform.ticket_platform.Controller;
 
+import com.ticket_platform.ticket_platform.Entity.Role;
 import com.ticket_platform.ticket_platform.Entity.Ticket;
 import com.ticket_platform.ticket_platform.Entity.Utente;
 import com.ticket_platform.ticket_platform.Repository.categoriaRepository;
 import com.ticket_platform.ticket_platform.Repository.ticketRepository;
 import com.ticket_platform.ticket_platform.Repository.utenteRepository;
+import com.ticket_platform.ticket_platform.Service.disponibileUtenteService;
 import com.ticket_platform.ticket_platform.Service.ticketService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,6 +34,9 @@ public class ticketController {
 
     @Autowired
     private ticketService ticketService;
+
+    @Autowired
+    private disponibileUtenteService disponibileUtenteService;
 
     @GetMapping("newTicket")
     public String newTicket(Model model){
@@ -89,15 +95,23 @@ public class ticketController {
     }
 
     @PostMapping("editTicket/{id}")
-    public String editTicket(@Valid @PathVariable("id")Integer id,@Valid @ModelAttribute("formEditTicket") Ticket ticketForm,
+    public String editTicket(@Valid @PathVariable("id")Integer id, @Valid @ModelAttribute("formEditTicket") Ticket ticketForm,
                              BindingResult bindingResult,
                              @RequestParam(value = "categoriaSelezionata", required = false) List<Integer> categoriaSelezionataId,
-                             @RequestParam(value = "nota", required = false) String nota, Model model){
+                             @RequestParam(value = "nota", required = false) String nota, Principal principal, Model model){
 
-        Ticket ticketOriginale = ticketRepository.findById(id).get();
+        //Verifica se utente è USER
+        Utente utenteSelezionato = disponibileUtenteService.recuperoUtente(principal).get();
+        for (Role role : utenteSelezionato.getRole()){
+            if ("USER".equals(role.getNomeRegola())){
+                Ticket ticketOriginale = ticketRepository.findById(id).get();
+                ticketOriginale.setStato(ticketForm.getStato());
+                ticketRepository.save(ticketOriginale);
+                return "redirect:/ticket/infoTicket/" + id;
+            }
+        }
 
-        Utente utenteSelezionato = utenteRepository.findByidUtente(ticketForm.getUtente().getIdUtente()).get();
-        if (utenteSelezionato.isDisponibile()){
+        if (ticketForm.getUtente().equals(utenteSelezionato.isDisponibile())){
             bindingResult.rejectValue("utente","errorUtenteDisponibile","L'utente non può essere selezionato");
         }
 
