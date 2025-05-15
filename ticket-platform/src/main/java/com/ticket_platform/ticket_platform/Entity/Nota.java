@@ -19,6 +19,18 @@ public class Nota {
 
     private LocalDate data;
 
+    @ManyToOne
+    @JoinColumn(name = "id_utente")
+    private Utente utenteNote;
+
+    public Utente getUtenteNote() {
+        return utenteNote;
+    }
+
+    public void setUtenteNote(Utente utente) {
+        this.utenteNote = utente;
+    }
+
     public LocalDate getData() {
         return data;
     }

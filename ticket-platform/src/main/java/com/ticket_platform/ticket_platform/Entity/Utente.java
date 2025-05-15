@@ -24,14 +24,6 @@ public class Utente {
 
     private String email;
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     private boolean disponibile;
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -44,6 +36,17 @@ public class Utente {
 
     @OneToMany(mappedBy = "utente")
     private List<Ticket> ticket;
+
+    @OneToMany(mappedBy = "utenteNote")
+    private List<Nota> note;
+
+    public List<Nota> getNote() {
+        return note;
+    }
+
+    public void setNote(List<Nota> note) {
+        this.note = note;
+    }
 
     public List<Ticket> getTicket() {
         return ticket;
@@ -107,5 +110,13 @@ public class Utente {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

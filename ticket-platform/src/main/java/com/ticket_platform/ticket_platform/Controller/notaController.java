@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.time.LocalDate;
 import java.util.Optional;
 
@@ -44,7 +45,7 @@ public class notaController {
 
     @PostMapping("newNota/{id}")
     public String newNota(@Valid @ModelAttribute("formNewNota") Nota notaForm, BindingResult bindingResult,
-                          @PathVariable("id")Integer id, Model model){
+                          @PathVariable("id")Integer id, Model model, Principal principal){
         if (notaForm.getData().isAfter(LocalDate.now())){
             bindingResult.rejectValue("data","dataError", "La data inserita non è corretta," +
                     "non può essere superiore ad oggi");
@@ -55,7 +56,8 @@ public class notaController {
             model.addAttribute("ticket", ticket);
             return "Note/newNota";
         }
-        notaService.newNota(id,notaForm);
+
+        notaService.newNota(id,notaForm,principal);
         return "redirect:/ticket/infoTicket/" + id;
     }
 }
