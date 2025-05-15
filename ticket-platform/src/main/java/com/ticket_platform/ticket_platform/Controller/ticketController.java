@@ -1,8 +1,8 @@
 package com.ticket_platform.ticket_platform.Controller;
 
 import com.ticket_platform.ticket_platform.Entity.Ticket;
+import com.ticket_platform.ticket_platform.Entity.Utente;
 import com.ticket_platform.ticket_platform.Repository.categoriaRepository;
-import com.ticket_platform.ticket_platform.Repository.notaRepository;
 import com.ticket_platform.ticket_platform.Repository.ticketRepository;
 import com.ticket_platform.ticket_platform.Repository.utenteRepository;
 import com.ticket_platform.ticket_platform.Service.ticketService;
@@ -32,9 +32,6 @@ public class ticketController {
     @Autowired
     private ticketService ticketService;
 
-    @Autowired
-    private notaRepository notaRepository;
-
     @GetMapping("newTicket")
     public String newTicket(Model model){
         model.addAttribute("formNewTicket", new Ticket());
@@ -47,6 +44,12 @@ public class ticketController {
     public String newTicket(@Valid @ModelAttribute("formNewTicket") Ticket ticketForm, BindingResult bindingResult, Model model,
                             @RequestParam(value = "utenteSelezionato", required = false)Integer utenteSelezionatoId,
                             @RequestParam(value = "categoriaSelezionata", required = false) List<Integer> categoriaSelezionataId){
+
+        //verifico l'utente selezionato se disponibile
+        Utente utenteSelezionato = utenteRepository.findByidUtente(utenteSelezionatoId).get();
+        if (utenteSelezionato.isDisponibile()){
+            bindingResult.rejectValue("utente","errorUtenteDisponibile","L'utente non può essere selezionato");
+        }
 
         if (utenteSelezionatoId == null){
             bindingResult.rejectValue("utente","errorUtente","Selezionare l'utente");
@@ -90,6 +93,11 @@ public class ticketController {
                              BindingResult bindingResult,
                              @RequestParam(value = "categoriaSelezionata", required = false) List<Integer> categoriaSelezionataId,
                              @RequestParam(value = "nota", required = false) String nota, Model model){
+
+        Utente utenteSelezionato = utenteRepository.findByidUtente(ticketForm.getUtente().getIdUtente()).get();
+        if (utenteSelezionato.isDisponibile()){
+            bindingResult.rejectValue("utente","errorUtenteDisponibile","L'utente non può essere selezionato");
+        }
 
         if (categoriaSelezionataId == null || categoriaSelezionataId.isEmpty()) {
             bindingResult.rejectValue("categoria", "errorCategoria","Selezionare almeno una categoria");

@@ -57,7 +57,10 @@
             <div th:unless="${listUtente == null or listUtente.isEmpty}">
               <select class="form-select" name="utenteSelezionato" multiple required>
                 <div th:each="utente : ${listUtente}">
-                  <option th:value="${utente.idUtente}" th:text="${utente.username}"></option>
+                  <option th:value="${utente.idUtente}"
+                          th:text="${utente.username}"
+                          th:disabled="${utente.disponibile}">
+                  </option>
                 </div>
               </select>
             </div>

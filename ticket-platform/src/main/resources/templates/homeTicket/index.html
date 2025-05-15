@@ -26,7 +26,7 @@
 
                 <!--Ricerca-->
                 <div class="col-3">
-                    <form>
+                    <form th:object="${UtenteForm}" th:action="@{/login/register}" method="post">
                         <div class="input-group mt-2">
                             <input type="text" class="form-control" placeholder="Cerca Ticket" name="titolo"
                                    aria-label="Username" aria-describedby="searchTitle">
@@ -45,6 +45,29 @@
             <div th:if="${listTicket.isEmpty}" class="alert alert-warning d-flex justify-content-between">
                 <span>Nessun ticket presente</span>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+
+            <!--Disponibilità utente-->
+            <div class="row">
+                <div class="col-4 offset-8 text-end">
+                <span title="Accendi il flag se non sei disponibile">
+                    Disponibilità
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                         class="bi bi-info-circle"
+                         viewBox="0 0 16 16">
+                      <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                      <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
+                    </svg>
+                </span>
+                    <form class="offset-8 d-flex justify-content-end" method="post" th:action="@{/path}">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input mt-3" type="checkbox" role="switch" id="switchCheckDefault"
+                                   name="disponibilitaUtente" value="true"
+                                   th:checked="${utenteloggato != null and utenteloggato.disponibile}">
+                        </div>
+                        <button type="submit" class="btn btn-outline-success btn-sm ms-3 mb-2 mt-2">Salva</button>
+                    </form>
+                </div>
             </div>
 
             <div th:unless="${listTicket.isEmpty}" class="mb-3">
@@ -109,7 +132,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </div>

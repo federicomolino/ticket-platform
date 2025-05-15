@@ -60,7 +60,8 @@
               <select class="form-select" th:field="*{utente.idUtente}" required>
                 <option th:each="utente : ${listUtente}"
                         th:value="${utente.idUtente}"
-                        th:text="${utente.username}">
+                        th:text="${utente.username}"
+                        th:disabled="${utente.disponibile}">
                 </option>
               </select>
             </div>
