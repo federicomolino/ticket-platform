@@ -51,7 +51,7 @@
           <div class="border rounded p-2" style="max-height: 150px; overflow-y: auto;">
 
             <div th:if="${listUtente == null or listUtente.isEmpty}">
-              <a class="text-black text-decoration-none" href="/utente">
+              <a class="text-black text-decoration-none" href="/login/register">
                 Nessun Utente presente, clicca qui per inserirlo!!
               </a>
             </div>
@@ -76,7 +76,7 @@
           <h6>Seleziona la Categoria <span class="text-danger">*</span></h6>
           <div class="border rounded p-2" style="max-height: 150px; overflow-y: auto;">
             <div th:if="${listCategoria == null or listCategoria.isEmpty}">
-              <a class="text-black text-decoration-none" href="/categoria">Nessuna Piattaforma inserita,
+              <a class="text-black text-decoration-none" href="/login/categoria">Nessuna Categoria inserita,
                 clicca qui per inserirla!!</a>
             </div>
 

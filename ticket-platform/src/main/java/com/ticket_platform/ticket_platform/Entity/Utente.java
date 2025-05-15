@@ -1,6 +1,8 @@
 package com.ticket_platform.ticket_platform.Entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 
 import java.util.List;
 
@@ -12,16 +14,25 @@ public class Utente {
     @Column(name = "id_utente")
     private Integer idUtente;
 
+    @Column(unique = true)
+    @Valid
+    @NotBlank(message = "Username non valido")
     private String username;
 
     @Column(name = "nome_utente")
+    @NotBlank(message = "Nome non valido")
     private String nome;
 
     @Column(name = "cognome_utente")
+    @NotBlank(message = "Cognome non valido")
     private String cognome;
 
+    @Valid
+    @NotBlank(message = "Password non valida")
     private String password;
 
+    @Valid
+    @NotBlank(message = "Email non valida")
     private String email;
 
     private boolean disponibile;
