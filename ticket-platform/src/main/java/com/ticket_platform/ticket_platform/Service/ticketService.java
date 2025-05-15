@@ -1,9 +1,6 @@
 package com.ticket_platform.ticket_platform.Service;
 
-import com.ticket_platform.ticket_platform.Entity.Categoria;
-import com.ticket_platform.ticket_platform.Entity.Nota;
-import com.ticket_platform.ticket_platform.Entity.Ticket;
-import com.ticket_platform.ticket_platform.Entity.Utente;
+import com.ticket_platform.ticket_platform.Entity.*;
 import com.ticket_platform.ticket_platform.Repository.categoriaRepository;
 import com.ticket_platform.ticket_platform.Repository.notaRepository;
 import com.ticket_platform.ticket_platform.Repository.ticketRepository;
@@ -53,7 +50,6 @@ public class ticketService {
         //Assegno categoria
         List<Categoria> categoriaSelezionata = ticketForm.getCategoria();
         ticketForm.setCategoria(categoriaSelezionata);
-
         Ticket editTicket = newTicket(ticketForm,utenteSelezionatoId,categoriaSelezionataId);
         return editTicket;
     }
@@ -80,4 +76,29 @@ public class ticketService {
             ticketRepository.deleteById(id);
         }
     }
+
+    public List<Ticket> ticketPerNomeETitolo(Utente utente, String titolo){
+        if (titolo == null || titolo.isEmpty()){
+            return ticketRepository.findByUtente(utente);
+        }
+        return ticketRepository.findByUtenteAndTitoloTicketContainingIgnoreCase(utente,titolo);
+    }
+
+    public List<Ticket> ticketPerUtente(Utente utenteLoggato, String titoloTicket){
+        boolean isAdmin = false;
+        for (Role role : utenteLoggato.getRole()){
+            if ("ADMIN".equalsIgnoreCase(role.getNomeRegola())){
+                isAdmin=true;
+                break;
+            }
+        }
+        List<Ticket> tickets;
+        if (isAdmin){
+            tickets = showTicket(titoloTicket);
+        }else {
+            tickets = ticketPerNomeETitolo(utenteLoggato,titoloTicket);
+        }
+        return tickets;
+    }
+
 }

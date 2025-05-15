@@ -1,5 +1,6 @@
 package com.ticket_platform.ticket_platform.Controller;
 
+import com.ticket_platform.ticket_platform.Entity.Ticket;
 import com.ticket_platform.ticket_platform.Entity.Utente;
 import com.ticket_platform.ticket_platform.Repository.utenteRepository;
 import com.ticket_platform.ticket_platform.Service.disponibileUtenteService;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -33,7 +35,10 @@ public class indexHome {
         if (utente.isPresent()){
             Utente utenteloggato = utente.get();
             model.addAttribute("utenteloggato", utenteloggato);
-            model.addAttribute("listTicket", ticketService.showTicket(titoloTicket));
+
+            //Recupero i titcket in base all'utente
+            List<Ticket> tickets = ticketService.ticketPerUtente(utenteloggato, titoloTicket);
+            model.addAttribute("listTicket", tickets);
             model.addAttribute("utente", utenteRepository.findAll());
         }
         return "homeTicket/index";

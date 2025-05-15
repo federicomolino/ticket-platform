@@ -94,6 +94,8 @@ public class ticketController {
                              @RequestParam(value = "categoriaSelezionata", required = false) List<Integer> categoriaSelezionataId,
                              @RequestParam(value = "nota", required = false) String nota, Model model){
 
+        Ticket ticketOriginale = ticketRepository.findById(id).get();
+
         Utente utenteSelezionato = utenteRepository.findByidUtente(ticketForm.getUtente().getIdUtente()).get();
         if (utenteSelezionato.isDisponibile()){
             bindingResult.rejectValue("utente","errorUtenteDisponibile","L'utente non può essere selezionato");
@@ -101,6 +103,7 @@ public class ticketController {
 
         if (categoriaSelezionataId == null || categoriaSelezionataId.isEmpty()) {
             bindingResult.rejectValue("categoria", "errorCategoria","Selezionare almeno una categoria");
+            return "homeTicket/editTicket";
         }
 
         if (bindingResult.hasErrors()){
