@@ -22,10 +22,12 @@ public class Utente {
     private String username;
 
     @Column(name = "nome_utente")
+    @Valid
     @NotBlank(message = "Nome non valido")
     private String nome;
 
     @Column(name = "cognome_utente")
+    @Valid
     @NotBlank(message = "Cognome non valido")
     private String cognome;
 
