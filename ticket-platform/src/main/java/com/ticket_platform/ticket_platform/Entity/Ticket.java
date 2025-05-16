@@ -1,5 +1,7 @@
 package com.ticket_platform.ticket_platform.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -27,9 +29,11 @@ public class Ticket {
     private String stato;
 
     @ManyToOne
+    @JsonManagedReference
     private Utente utente;
 
     @OneToMany(mappedBy = "ticket")
+    @JsonIgnore
     private List<Nota> nota;
 
     @ManyToMany

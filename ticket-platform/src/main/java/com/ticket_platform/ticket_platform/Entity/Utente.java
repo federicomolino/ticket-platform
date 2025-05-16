@@ -1,5 +1,7 @@
 package com.ticket_platform.ticket_platform.Entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -46,9 +48,11 @@ public class Utente {
     private List<Role> role;
 
     @OneToMany(mappedBy = "utente")
+    @JsonBackReference
     private List<Ticket> ticket;
 
     @OneToMany(mappedBy = "utenteNote")
+    @JsonIgnore
     private List<Nota> note;
 
     public List<Nota> getNote() {

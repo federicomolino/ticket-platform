@@ -1,5 +1,6 @@
 package com.ticket_platform.ticket_platform.Entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -16,6 +17,7 @@ public class Categoria {
     private String nomeCategoria;
 
     @ManyToMany(mappedBy = "categoria")
+    @JsonBackReference
     private List<Ticket> tickets;
 
     public List<Ticket> getTickets() {
