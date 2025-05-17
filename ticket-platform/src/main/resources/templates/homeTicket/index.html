@@ -68,6 +68,12 @@
                         <button type="submit" class="btn btn-outline-success btn-sm ms-3 mb-2 mt-2">Salva</button>
                     </form>
 
+                    <div th:if="${utenteloggato != null and utenteloggato.disponibile}"
+                         class="alert alert-warning alert-dismissible fade show py-1 px-2 mb-2 d-inline-block" role="alert" style="font-size: 0.85rem;">
+                        <span>Non sei più disponibile!!</span>
+                    </div>
+
+                    <!--Errore disponibilità utente-->
                     <div th:if="${erroreDisponibilita}" class="alert alert-danger d-flex justify-content-between">
                         <p th:text="${erroreDisponibilita}"></p>
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
