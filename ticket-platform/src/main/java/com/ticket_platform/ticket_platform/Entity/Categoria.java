@@ -2,6 +2,8 @@ package com.ticket_platform.ticket_platform.Entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 
 import java.util.List;
 
@@ -14,6 +16,8 @@ public class Categoria {
     private Integer idCategoria;
 
     @Column(name = "nome_categoria")
+    @Valid
+    @NotBlank(message = "La categoria non può essere vuota")
     private String nomeCategoria;
 
     @ManyToMany(mappedBy = "categoria")
