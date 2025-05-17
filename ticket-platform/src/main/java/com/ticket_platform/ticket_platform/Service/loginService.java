@@ -7,6 +7,7 @@ import com.ticket_platform.ticket_platform.Repository.utenteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,5 +40,19 @@ public class loginService {
         formUtente.setPassword("{noop}" + formUtente.getPassword());
 
         return utenteRepository.save(formUtente);
+    }
+
+    public Utente editUtente(Utente editUtente, Principal principal) {
+        //Optional<Utente> utente = utenteRepository.findByidUtente(editUtente.getIdUtente());
+        String nomeUtente = principal.getName();
+        Utente utenteDaModificare = utenteRepository.findByUsername(nomeUtente).get();
+
+        //Modifiche
+        utenteDaModificare.setUsername(editUtente.getUsername());
+        utenteDaModificare.setNome(editUtente.getNome());
+        utenteDaModificare.setCognome(editUtente.getCognome());
+        utenteDaModificare.setEmail(editUtente.getEmail());
+        utenteDaModificare.setPassword("{noop}" + editUtente.getPassword());
+        return utenteRepository.save(utenteDaModificare);
     }
 }
