@@ -1,6 +1,8 @@
 package com.ticket_platform.ticket_platform.Entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 
 import java.time.LocalDate;
 
@@ -12,6 +14,8 @@ public class Nota {
     @Column(name = "id_nota")
     private Integer id;
 
+    @Valid
+    @NotBlank(message = "La nota non può essere vuota")
     private String nota;
 
     @ManyToOne

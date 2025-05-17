@@ -46,13 +46,22 @@ public class notaController {
     @PostMapping("newNota/{id}")
     public String newNota(@Valid @ModelAttribute("formNewNota") Nota notaForm, BindingResult bindingResult,
                           @PathVariable("id")Integer id, Model model, Principal principal){
+        Ticket ticket = ticketRepository.findById(id).get();
+
+        if (notaForm.getData() == null || notaForm.getNota().isEmpty()){
+            bindingResult.rejectValue("data","dataError",
+                    "Inserire una data");
+            model.addAttribute("ticket",ticket);
+            return "Note/newNota";
+        }
+
         if (notaForm.getData().isAfter(LocalDate.now())){
             bindingResult.rejectValue("data","dataError", "La data inserita non è corretta," +
-                    "non può essere superiore ad oggi");
+                    " non può essere superiore ad oggi");
         }
 
         if (bindingResult.hasErrors()){
-            Ticket ticket = ticketRepository.findById(id).get();
+            //Ticket ticket = ticketRepository.findById(id).get();
             model.addAttribute("ticket", ticket);
             return "Note/newNota";
         }

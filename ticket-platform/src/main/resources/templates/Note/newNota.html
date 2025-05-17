@@ -13,6 +13,7 @@
     <div class="col-6">
       <div class="mb-3">
         <textarea th:field="*{nota}" class="form-control" id="exampleTextarea" rows="4" placeholder="Inserisci il testo"></textarea>
+        <span th:if="${#fields.hasErrors('nota')}" class="text-danger" th:errors="*{nota}"></span>
       </div>
     </div>
 
@@ -21,14 +22,12 @@
 
       <div>
         <input type="date" th:field="*{data}">
-        <ul th:if="${#fields.hasErrors('data')}">
-          <li th:each="err : ${#fields.errors('data')}" th:text="${err}" class="text-danger">Input is incorrect</li>
-        </ul>
       </div>
+      <span th:if="${#fields.hasErrors('data')}" class="text-danger" th:errors="*{data}">nota</span>
 
       <div class="mt-4">
         <h6>Utente</h6>
-        <span th:text="${ticket.utente.username}">federico.molino</span>
+        <h5 th:text="${ticket.utente.username}">federico.molino</h5>
       </div>
 
       <!-- Pulsanti -->
