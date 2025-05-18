@@ -35,6 +35,7 @@ public class Utente {
     @NotBlank(message = "Password non valida")
     private String password;
 
+    @Column(unique = true)
     @Valid
     @NotBlank(message = "Email non valida")
     private String email;

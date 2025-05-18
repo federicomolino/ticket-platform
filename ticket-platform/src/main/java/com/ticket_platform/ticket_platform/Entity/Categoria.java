@@ -15,7 +15,7 @@ public class Categoria {
     @Column(name = "id_categoria")
     private Integer idCategoria;
 
-    @Column(name = "nome_categoria")
+    @Column(name = "nome_categoria", unique = true)
     @Valid
     @NotBlank(message = "La categoria non può essere vuota")
     private String nomeCategoria;
